@@ -1,4 +1,4 @@
-import Koa, {Context} from 'koa';
+import Koa, { Context } from 'koa';
 import bodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
 

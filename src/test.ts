@@ -3,7 +3,7 @@ import fs from 'fs';
 import app from './app';
 import config from './config'
 
-const eventsFilePath  = config.eventsFilePath;
+const eventsFilePath = config.eventsFilePath;
 
 describe('POST /points_of_interest', () => {
   // Mock the events.csv file

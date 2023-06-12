@@ -12,6 +12,14 @@ interface PointOfInterest {
     name: string;
 }
 
+interface Result {
+    lat: number,
+    lon: number,
+    name: string,
+    impressions: number,
+    clicks: number,
+}
+
 interface Event {
     lat: number;
     lon: number;
@@ -29,7 +37,7 @@ async function impAndClick(ctx: Context) {
     // Bulk load the points of interest into the RBush tree
     const tree = new kdTree(pointsOfInterest, distanceFunc, ['lat', 'lon']);
 
-    let results: Record<string, string | number> = {};
+    let results: Record<string, Result> = {};
     await new Promise<void>((resolve, reject) => {
         fs.createReadStream(eventsFilePath)
             .pipe(csv())
@@ -60,10 +68,10 @@ function parseEvent(data: Event_data): Event {
 }
 
 // Function to process an event and associate it with the nearest point of interest
-function processEvent(tree: any, event: Event, results: Record<string, any>) {
+function processEvent(tree: kdTree<PointOfInterest>, event: Event, results: Record<string, Result>) {
     const { lat, lon, eventType } = event;
 
-    const nearestPointOfInterest = tree.nearest({ lat, lon }, 1)[0][0];
+    const nearestPointOfInterest = tree.nearest({ lat, lon, 'name':'' }, 1)[0][0];
     if (nearestPointOfInterest) {
         const eventName = <string>nearestPointOfInterest.name;
 

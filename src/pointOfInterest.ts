@@ -73,22 +73,22 @@ function processEvent(tree: kdTree<PointOfInterest>, event: Event, results: Reco
 
     const nearestPointOfInterest = tree.nearest({ lat, lon, 'name':'' }, 1)[0][0];
     if (nearestPointOfInterest) {
-        const eventName = <string>nearestPointOfInterest.name;
+        const pointName = <string>nearestPointOfInterest.name;
 
-        if (!results[eventName]) {
-            results[eventName] = {
+        if (!results[pointName]) {
+            results[pointName] = {
                 lat: <number>nearestPointOfInterest.lat,
                 lon: <number>nearestPointOfInterest.lon,
-                name: <string>eventName,
+                name: <string>pointName,
                 impressions: 0,
                 clicks: 0,
             };
         }
 
         if (eventType === 'imp') {
-            results[eventName].impressions += 1;
+            results[pointName].impressions += 1;
         } else if (eventType === 'click') {
-            results[eventName].clicks += 1;
+            results[pointName].clicks += 1;
         }
     }
 }

@@ -38,6 +38,13 @@ async function impAndClick(ctx: Context) {
     const tree = new kdTree(pointsOfInterest, distanceFunc, ['lat', 'lon']);
 
     let results: Record<string, Result> = {};
+    
+    if (!fs.existsSync(eventsFilePath)) {
+        ctx.status = 404; // File not found error
+        ctx.body = 'File not found';
+        return
+    }
+    
     await new Promise<void>((resolve, reject) => {
         fs.createReadStream(eventsFilePath)
             .pipe(csv())
@@ -49,6 +56,8 @@ async function impAndClick(ctx: Context) {
                 resolve();
             })
             .on('error', (error) => {
+                ctx.status = 500;
+                console.log('erro in file')
                 reject(error);
             });
     });

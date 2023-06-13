@@ -2,7 +2,7 @@
 ````
 npm i
 ````
-# Run koa app
+# Run koa app in local
 ````
 npm run start
 ````
